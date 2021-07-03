@@ -199,7 +199,11 @@ console.log(joe.scopeArrow());
 // TODO: Write a COMMENT below to answer the following questions.
 // 1. What is "this" when joe.scope() is invoked?
 //answer 1
+// referres to the object that was created.
+
 // 2. What is "this" when joe.scopeArrow() is invoked?
-//
+//answer 2
+//this invokes the window not the object
 // 3. Explain why "this" is different when an arrow function is used.
-//
+//answer 3
+//when you use the arrow function in the constructor it invokes the window .
