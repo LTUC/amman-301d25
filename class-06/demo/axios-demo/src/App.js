@@ -10,7 +10,8 @@ class App extends React.Component {
     this.state = {
       cityData:{},
       searchQuery:'',
-      showMap: false
+      showMap: false,
+      showErrorMessage: false
     }
   }
 
@@ -23,18 +24,24 @@ class App extends React.Component {
 
     console.log('aaaaaaaaaaaaaa',this.state.searchQuery)
 
+
     let url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
 
-    let resData = await axios.get(url);
-
-    console.log(resData)
-    console.log(resData.data)
-    console.log(resData.data[0])
-
-    this.setState({
-      cityData: resData.data[0],
-      showMap:true
-    })
+    try {
+      let resData = await axios.get(url);
+      console.log(resData)
+      console.log(resData.data)
+      console.log(resData.data[0])
+  
+      this.setState({
+        cityData: resData.data[0],
+        showMap:true
+      })
+    } catch {
+      this.setState({
+        showErrorMessage: true
+      })
+    }
 
   }
 
@@ -53,6 +60,10 @@ class App extends React.Component {
         {this.state.showMap && 
         <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=15`} />
         }      
+
+        {this.state.showErrorMessage &&
+        <p>something went wrong in getting data from locationiq</p>
+        }
         
       </div>
     )
